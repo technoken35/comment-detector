@@ -1,17 +1,17 @@
 import express, {Request, Response, NextFunction, Application} from "express";
+import * as dotenv from "dotenv";
+import {MongoClient} from "mongodb";
 
-const app:Application = express()
-const port:number = 3000
+dotenv.config()
+const app: Application = express()
+const client: MongoClient = new MongoClient(process.env.DB_CONNECTION_URI || '')
+const port: number = 3000
 
 app.get('/', (request: Request, response: Response) => {
-    response.send('Hello World!')
+    response.send(process.env.DB_CONNECTION_URI);
 })
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
-})
-
-function sum (num1:number, num2:number){
-    return num1 + num2;
-}
-console.log(sum(8,4))
+    console.log(process.env.DB_CONNECTION_URI);
+});
